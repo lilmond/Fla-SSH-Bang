@@ -3,6 +3,8 @@ Extremely super fast lightspeed SSH bruteforce tool written in Python.
 
 Note that coolproxies.txt and passlist_2023.txt are only examples. Please use [Proxal](https://github.com/lilmond/Proxal) for fetching your proxy lists, and pull better password list from the internet since most of them don't work based on my experience.
 
+Do not leech my code or remove lilmond@github in the banner, otherwise you will go to jail!
+
 ![image](https://github.com/user-attachments/assets/a45ef85b-e9b7-4c2a-acf2-84d932df7186)
 
 # Where to get proxies?

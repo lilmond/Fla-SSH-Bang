@@ -1,11 +1,11 @@
 # Fla-SSH-Bang
 Extremely super fast lightspeed SSH bruteforce tool written in Python.
 
-Note that coolproxies.txt and passlist_2023.txt are only examples. Please use [Proxal](https://github.com/lilmond/Proxal) for fetching your proxy lists, and pull better password list from the internet since most of them don't work based on my experience.
+**PS:** The files `coolproxies.txt` and `passlist_2023.txt` are only samples of combo lists. You may use [Proxal](https://github.com/lilmond/Proxal) for fetching fresh proxy lists, and also don't forget to pull better password list from [SecLists](https://github.com/danielmiessler/SecLists).
 
-Do not leech my code or remove lilmond@github in the banner, otherwise you will go to jail!
+https://discord.com/invite/Bnf3e8pkyj
 
-You can join my Discord where I drop free hacking tools: https://discord.gg/Bnf3e8pkyj
+follow me for more free hacking tools :3
 
 ![image](https://github.com/user-attachments/assets/a45ef85b-e9b7-4c2a-acf2-84d932df7186)
 

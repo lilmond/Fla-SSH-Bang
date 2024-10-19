@@ -29,26 +29,33 @@ pip install -r requirements.txt
 ```
 
 # Usage
+
+## Examples
 Single host target
 ```
-python flasshbang.py <target ip> -u root -P passlist_2023.txt -pp coolproxies.txt 
+python3 flasshbang.py <target ip> -u root -P samples/pass_list.txt -pp samples/good_proxies.txt 
 ```
 
 Multi-hosts
 ```
-python flasshbang.py -M <host list file> -u root -P passlist_2023.txt -pp coolproxies.txt -o hacked_ssh.txt 
+python3 flasshbang.py -M <host list file> -u root -P samples/pass_list.txt -pp samples/good_proxies.txt -o hacked_ssh.txt 
 ```
 
 # Help
 ```
-  ______ _              _____ _____ _    _        ____                    _
- |  ____| |            / ____/ ____| |  | |      |  _ \  lilmond@github  | |
- | |__  | | __ _ _____| (___| (___ | |__| |______| |_) | __ _ _ __   __ _| |
- |  __| | |/ _` |______\___ \\___ \|  __  |______|  _ < / _` | '_ \ / _` | |
- | |    | | (_| |      ____) |___) | |  | |      | |_) | (_| | | | | (_| |_|
- |_|    |_|\__,_|     |_____/_____/|_|  |_|      |____/ \__,_|_| |_|\__, (_)
-                                                                     __/ |
-                                                                    |___/
+
+               █████▒██▓    ▄▄▄        ██████   ██████  ██░ ██  ▄▄▄▄    ▄▄▄       ███▄    █   ▄████  ▐██▌
+             ▓██   ▒▓██▒   ▒████▄    ▒██    ▒ ▒██    ▒ ▓██░ ██▒▓█████▄ ▒████▄     ██ ▀█   █  ██▒ ▀█▒ ▐██▌
+             ▒████ ░▒██░   ▒██  ▀█▄  ░ ▓██▄   ░ ▓██▄   ▒██▀▀██░▒██▒ ▄██▒██  ▀█▄  ▓██  ▀█ ██▒▒██░▄▄▄░ ▐██▌
+             ░▓█▒  ░▒██░   ░██▄▄▄▄██   ▒   ██▒  ▒   ██▒░▓█ ░██ ▒██░█▀  ░██▄▄▄▄██ ▓██▒  ▐▌██▒░▓█  ██▓ ▓██▒
+             ░▒█░   ░██████▒▓█   ▓██▒▒██████▒▒▒██████▒▒░▓█▒░██▓░▓█  ▀█▓ ▓█   ▓██▒▒██░   ▓██░░▒▓███▀▒ ▒▄▄
+              ▒ ░   ░ ▒░▓  ░▒▒   ▓▒█░▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░ ▒ ░░▒░▒░▒▓███▀▒ ▒▒   ▓▒█░░ ▒░   ▒ ▒  ░▒   ▒  ░▀▀▒
+              ░     ░ ░ ▒  ░ ▒   ▒▒ ░░ ░▒  ░ ░░ ░▒  ░ ░ ▒ ░▒░ ░▒░▒   ░   ▒   ▒▒ ░░ ░░   ░ ▒░  ░   ░  ░  ░
+              ░ ░     ░ ░    ░   ▒   ░  ░  ░  ░  ░  ░   ░  ░░ ░ ░    ░   ░   ▒      ░   ░ ░ ░ ░   ░     ░
+                        ░  ░     ░  ░      ░        ░   ░  ░  ░ ░            ░  ░         ░       ░  ░
+                                                                     ░
+                        Visit  https://github.com/lilmond for more free hacking tools! :3
+
 usage: flasshbang.py [-h] [-p PORT] [-u USERNAME] -P PASSLIST -pp PROXY_LIST [-t THREADS] [-T THREADS_MULTI]
                      [-M HOST_LIST] [-o OUTPUT]
                      [hostname]

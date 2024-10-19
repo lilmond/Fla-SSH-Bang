@@ -10,7 +10,7 @@ follow me for more free hacking tools :3
 ![image](https://github.com/user-attachments/assets/a45ef85b-e9b7-4c2a-acf2-84d932df7186)
 
 # Where to get proxies?
-You can use my proxy list scraper here (Proxal): https://github.com/lilmond/Proxal
+You may use my proxy list scraper here (Proxal): https://github.com/lilmond/Proxal
 
 # Installation
 Ubuntu 20.04

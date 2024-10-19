@@ -5,6 +5,8 @@ Note that coolproxies.txt and passlist_2023.txt are only examples. Please use [P
 
 Do not leech my code or remove lilmond@github in the banner, otherwise you will go to jail!
 
+You can join my Discord where I drop free hacking tools: https://discord.gg/Bnf3e8pkyj
+
 ![image](https://github.com/user-attachments/assets/a45ef85b-e9b7-4c2a-acf2-84d932df7186)
 
 # Where to get proxies?

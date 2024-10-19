@@ -14,8 +14,8 @@ paramiko.util.log_to_file(os.devnull)
 
 class DefaultConfig:
     port = 22
-    threads = 16
-    threads_multi_hosts = 10
+    threads = 10
+    threads_multi_hosts = 3
     username = "root"
 
 class Colors:
@@ -51,6 +51,7 @@ class FlaSSHBang(object):
 
     def login(self, password: str):
         password_tries = 0
+        reattempt = False
 
         try:
             self.active_threads += 1
@@ -74,7 +75,7 @@ class FlaSSHBang(object):
 
                 if self.kill: return
                 
-                print(f"{Colors.BLUE}[ATTEMPT]{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password}")
+                print(f"{Colors.BLUE}[{f' ATTEMPT ' if not reattempt else 'REATTEMPT'}]{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password}")
 
                 try:
                     transport = paramiko.Transport(sock=sock)
@@ -83,23 +84,24 @@ class FlaSSHBang(object):
                 except paramiko.ssh_exception.AuthenticationException:
                     if self.kill: return
                     self.attempt_number += 1
-                    print(f"{Colors.RED}[FAILED ]{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password} - [{self.attempt_number} / {len(self.passlist)}]")
+                    print(f"{Colors.RED}[ FAILED  ]{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password} - [{self.attempt_number} / {len(self.passlist)}]")
                     return
                 
                 except paramiko.ssh_exception.BadAuthenticationType:
                     if self.kill: return
-                    print(f"{Colors.RED}[ ABORT ]{Colors.RESET} {self.hostname}:{self.port} does not support password authentication!")
+                    print(f"{Colors.RED}[  ABORT  ]{Colors.RESET} {self.hostname}:{self.port} does not support password authentication!")
                     self.kill = True
                     return
 
                 except Exception:
+                    reattempt = True
                     time.sleep(1)
                     continue
 
                 finally:
                     transport.close()
                 
-                print(f"{Colors.GREEN}[SUCCESS]{Colors.RESET} {Colors.PURPLE}111loggedin!{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password} {Colors.PURPLE}111loggedin!{Colors.RESET}")
+                print(f"{Colors.GREEN}[ SUCCESS ]{Colors.RESET} {Colors.PURPLE}111loggedin!{Colors.RESET} {self.hostname}:{self.port} - {self.username}:{password} {Colors.PURPLE}111loggedin!{Colors.RESET}")
                 self.kill = True
 
                 if self.output_file:

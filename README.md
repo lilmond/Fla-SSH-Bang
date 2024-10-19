@@ -32,3 +32,44 @@ Multi-hosts
 ```
 python flasshbang.py -M <host list file> -u root -P passlist_2023.txt -pp coolproxies.txt -o hacked_ssh.txt 
 ```
+
+# Help
+```
+  ______ _              _____ _____ _    _        ____                    _
+ |  ____| |            / ____/ ____| |  | |      |  _ \  lilmond@github  | |
+ | |__  | | __ _ _____| (___| (___ | |__| |______| |_) | __ _ _ __   __ _| |
+ |  __| | |/ _` |______\___ \\___ \|  __  |______|  _ < / _` | '_ \ / _` | |
+ | |    | | (_| |      ____) |___) | |  | |      | |_) | (_| | | | | (_| |_|
+ |_|    |_|\__,_|     |_____/_____/|_|  |_|      |____/ \__,_|_| |_|\__, (_)
+                                                                     __/ |
+                                                                    |___/
+usage: flasshbang.py [-h] [-p PORT] [-u USERNAME] -P PASSLIST -pp PROXY_LIST [-t THREADS] [-T THREADS_MULTI]
+                     [-M HOST_LIST] [-o OUTPUT]
+                     [hostname]
+
+Fla-SSH-Bang! Inspired by vanhauser's hydra (also shoutout to him for creating that wonderful tool!). Super fast SSH
+bruteforce tool powered by proxies that who knows where they came from. Written in Python! Number 1 language in the
+world!
+
+positional arguments:
+  hostname              Target IP address.
+
+options:
+  -h, --help            show this help message and exit
+  -p PORT, --port PORT  Target port. Default is set to 22.
+  -u USERNAME, --username USERNAME
+                        SSH user to attack. The default is set to root.
+  -P PASSLIST, --passlist PASSLIST
+                        Your favorite password list from SecLists!
+  -pp PROXY_LIST, --proxy-list PROXY_LIST
+                        Not the size of your penis, but the longer your proxy list is, the better!
+  -t THREADS, --threads THREADS
+                        Threads, idk how to explain what threads are. But the default is set to 10! The more threads,
+                        the faster!
+  -T THREADS_MULTI, --threads-multi THREADS_MULTI
+                        Threads for multi hosts. The default is 3
+  -M HOST_LIST, --host-list HOST_LIST
+                        File list of hosts to attack.
+  -o OUTPUT, --output OUTPUT
+                        Success logins output file.
+```

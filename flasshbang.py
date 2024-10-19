@@ -207,11 +207,25 @@ def clear_console():
         os.system("clear")
 
 def show_banner():
-    with open("banner.txt", "r") as file:
-        banner = file.read()
+    with open("banner.txt", "rb") as file:
+        banner = file.read().decode()
         file.close()
     
-    print(f"{Colors.PURPLE}{banner}{Colors.RESET}")
+    terminal_columns = os.get_terminal_size().columns
+    max_banner_cols = 0
+
+    for line in banner.splitlines():
+        line_columns = len(line)
+
+        if line_columns > max_banner_cols:
+            max_banner_cols = line_columns
+
+    spaces = int((terminal_columns - max_banner_cols) / 2)
+
+    print(Colors.PURPLE, end="")
+    for line in banner.splitlines():
+        print(f"{ ' ' * spaces}{line}")
+    print(Colors.RESET)
 
 def main():
     clear_console()

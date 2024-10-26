@@ -1,6 +1,8 @@
 # Fla-SSH-Bang
 Faster SSH bruteforce tool with the help of proxies.
 
+This tool is best combined with [Turbo](https://github.com/lilmond/Turbo/tree/main)
+
 **PS:** The files `coolproxies.txt` and `passlist_2023.txt` are only samples of combo lists. You may use [Proxal](https://github.com/lilmond/Proxal) for fetching fresh proxy lists, and also don't forget to pull better password list from [SecLists](https://github.com/danielmiessler/SecLists).
 
 https://discord.com/invite/Bnf3e8pkyj

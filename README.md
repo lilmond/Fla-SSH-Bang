@@ -9,6 +9,8 @@ Discord: https://discord.com/invite/Bnf3e8pkyj
 
 ![image](https://github.com/user-attachments/assets/a62ef38e-06c8-4b41-8a0e-dcfd0739e2a5)
 
+300 threads preview. Watch the demonstration on YT where I used 500 threads.
+
 https://github.com/user-attachments/assets/e14f2745-7e81-4263-b7ee-30626cf1ef2e
 
 # Where to get proxies?

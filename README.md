@@ -3,7 +3,7 @@ Lightspeed fast SSH bruteforce tool.
 
 This tool is best combined with [Turbo](https://github.com/lilmond/Turbo)
 
-Watch flasshbang2 at play here: https://www.youtube.com/watch?v=ABVO17C8G64
+Watch flasshbang2 at play here: [Hacking Thousands of SSH Servers Worldwide | Untargeted Reverse Brute-Force Attack](https://www.youtube.com/watch?v=ABVO17C8G64)
 
 Discord: https://discord.com/invite/Bnf3e8pkyj
 

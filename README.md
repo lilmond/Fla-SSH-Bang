@@ -1,9 +1,9 @@
 # Fla-SSH-Bang
 Lightspeed SSH bruteforce.
 
-This tool is best combined with [Turbo](https://github.com/lilmond/Turbo/tree/main)
+This tool is best combined with [Turbo](https://github.com/lilmond/Turbo)
 
-Watch flasshbang2 at play here: https://www.youtube.com/watch?v=J4gawRD-RDo
+Watch flasshbang2 at work here: https://www.youtube.com/watch?v=ABVO17C8G64
 
 **PS:** The files `coolproxies.txt` and `passlist_2023.txt` are only samples of combo lists. You may use [Proxal](https://github.com/lilmond/Proxal) for fetching fresh proxy lists, and also don't forget to pull better password list from [SecLists](https://github.com/danielmiessler/SecLists).
 

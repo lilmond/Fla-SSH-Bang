@@ -19,7 +19,7 @@ BANNER = r"""
  ░ ░     ░ ░    ░   ▒   ░  ░  ░  ░  ░  ░   ░  ░░ ░ ░    ░   ░   ▒      ░   ░ ░ ░ ░   ░     ░ 
            ░  ░     ░  ░      ░        ░   ░  ░  ░ ░            ░  ░         ░       ░  ░    
                                                         ░
-                                   Version: flasshbang2
+                                 Version: flasshbang2
                       
                       Source: https://github.com/lilmond/flasshbang
 """
@@ -123,7 +123,7 @@ class IterHostsLoginMethod(object):
                 same_total = 0
             
             if same_total > 3:
-                print(f"Forcing stop this password due to too many retries.")
+                print(f"Force stopping this loop due to too many failed attempts")
                 self.bad_hosts += self.hostnames
                 break
 
@@ -132,7 +132,8 @@ class IterHostsLoginMethod(object):
             if self.active_threads > 0:
                 print(f"Initializing loop number: {loop_number} Total Hosts: {total_hosts} After the remaining {self.active_threads} active threads finish")
                 self.wait_threads_finish()
-            print(f"Initializing loop number: {loop_number} Total Hosts: {total_hosts} in 5 seconds")
+
+            print(f"Initializing loop number: {loop_number} Total Hosts: {len(self.hostnames)} in 5 seconds")
             time.sleep(5)
 
             hosts_left = self.hostnames
@@ -199,7 +200,21 @@ def main():
     for password in pass_list:
         iterhosts = IterHostsLoginMethod(hostnames=host_list.copy(), port=port, username=username, password=password, output=output, threads=threads)
         print(f"Initializing reverse bruteforce on {len(host_list)} hosts")
-        iterhosts.loop_until_hostlist_empty()
+        
+        try:
+            iterhosts.loop_until_hostlist_empty()
+        except KeyboardInterrupt:
+            print("Ctrl + C break detected. Waiting for processes to finish before closing")
+
+            try:
+                iterhosts.wait_threads_finish()
+            except KeyboardInterrupt:
+                print("Please wait until the remaining processes finish")
+                pass
+
+            print("Now exiting")
+
+            break
 
         bad_hosts = iterhosts.bad_hosts
         cracked_hosts = iterhosts.cracked_hosts
@@ -219,7 +234,4 @@ def main():
             print(f"Cracked {len(cracked_hosts)} hosts from the previous loop.")
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        exit()
+    main()

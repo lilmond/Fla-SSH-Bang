@@ -1,29 +1,20 @@
 # Fla-SSH-Bang
-Lightspeed SSH bruteforce.
+Lightspeed fast SSH bruteforce tool.
 
 This tool is best combined with [Turbo](https://github.com/lilmond/Turbo)
 
 Watch flasshbang2 at work here: https://www.youtube.com/watch?v=ABVO17C8G64
 
-**PS:** The files `coolproxies.txt` and `passlist_2023.txt` are only samples of combo lists. You may use [Proxal](https://github.com/lilmond/Proxal) for fetching fresh proxy lists, and also don't forget to pull better password list from [SecLists](https://github.com/danielmiessler/SecLists).
+Discord: https://discord.com/invite/Bnf3e8pkyj
 
-https://discord.com/invite/Bnf3e8pkyj
+![image](https://github.com/user-attachments/assets/a62ef38e-06c8-4b41-8a0e-dcfd0739e2a5)
 
-follow me for more free hacking tools :3
-
-![image](https://github.com/user-attachments/assets/a45ef85b-e9b7-4c2a-acf2-84d932df7186)
 
 # Where to get proxies?
 You may use my proxy list scraper here (Proxal): https://github.com/lilmond/Proxal
 
 # Installation
-Ubuntu 20.04
-```
-git clone https://github.com/lilmond/flasshbang
-cd flasshbang
-pip install -r requirements.txt
-```
-Ubuntu 24.04
+For Linux platforms. Execute the commands below. You may copy and paste and execute them all at once.
 ```
 git clone https://github.com/lilmond/flasshbang
 cd flasshbang

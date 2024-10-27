@@ -199,11 +199,11 @@ def main():
         print(f"Error: -P/--pass-list and -C/--combo-list cannot be used simultaneously")
         return
 
-    host_list = args.host_list.read().splitlines()
+    host_list = list(dict.fromkeys(args.host_list.read().splitlines()))
 
     if args.pass_list:
         pass_list = args.pass_list.read().splitlines()
-        creds_list = pass_list
+        creds_list = list(dict.fromkeys(pass_list))
 
     if args.combo_list:
         combo_list = args.combo_list.read().splitlines()
@@ -215,7 +215,7 @@ def main():
                 print(f"Error: invalid combo format at line {line_num}: {combo}")
                 return
         
-        creds_list = combo_list
+        creds_list = list(dict.fromkeys(combo_list))
     
     output = args.output.name
     port = args.port
@@ -228,7 +228,7 @@ def main():
         else:
             username = args.username
             password = line
-            
+
         iterhosts = IterHostsLoginMethod(hostnames=host_list.copy(), port=port, username=username, password=password, output=output, threads=threads)
         print(f"Initializing reverse bruteforce on {len(host_list)} hosts")
         

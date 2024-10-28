@@ -19,6 +19,7 @@ You may use my proxy list scraper here (Proxal): https://github.com/lilmond/Prox
 # Installation
 For Linux platforms. Execute the commands below. You may copy and paste and execute them all at once.
 ```
+sudo apt install python3-pip
 git clone https://github.com/lilmond/flasshbang
 cd flasshbang
 python3 -m venv venv

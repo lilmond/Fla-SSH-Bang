@@ -7,11 +7,13 @@ Watch flasshbang2 at play here: [Hacking Thousands of SSH Servers Worldwide | Un
 
 Discord: https://discord.com/invite/Bnf3e8pkyj
 
-![image](https://github.com/user-attachments/assets/a62ef38e-06c8-4b41-8a0e-dcfd0739e2a5)
-
-300 threads preview. Watch the demonstration on YT where I used 600 threads to see how fast it can actually go.
+This shows 300 threads preview. Watch the demonstration on YT where I used 600 threads to see how fast it can actually go. Link above.
 
 https://github.com/user-attachments/assets/e14f2745-7e81-4263-b7ee-30626cf1ef2e
+
+# Latest Updates
+- Added `-rH/--randomize-host` and `-rC/--randomize-creds` parameters
+- Added `-C/--combo-list` parameter
 
 # Where to get proxies?
 You may use my proxy list scraper here (Proxal): https://github.com/lilmond/Proxal

@@ -4,6 +4,7 @@ import paramiko.util
 import paramiko
 import threading
 import argparse
+import random
 import time
 import sys
 import os
@@ -38,13 +39,14 @@ class Colors:
 class IterHostsLoginMethod(object):
     active_threads = 0
 
-    def __init__(self, hostnames: list, port: int, username: str, password: str, output: str, threads: int):
+    def __init__(self, hostnames: list, port: int, username: str, password: str, output: str, threads: int, randomize_host: bool):
         self.hostnames = hostnames
         self.port = port
         self.username = username
         self.password = password
         self.output = output
         self.threads = threads
+        self.randomize_host = randomize_host
 
         self.bad_hosts = []
         self.cracked_hosts = []
@@ -138,6 +140,9 @@ class IterHostsLoginMethod(object):
 
             hosts_left = self.hostnames
 
+            if self.randomize_host:
+                random.shuffle(hosts_left)
+
             for hostname in hosts_left:
                 while True:
                     if self.active_threads >= self.threads:
@@ -188,7 +193,9 @@ def main():
     parser.add_argument("-p", "--port", type=int, default=22, help="Port to connect to. Default is: 22")
     parser.add_argument("-u", "--username", type=str, default="root", help="Username to crack. Default is: root")
     parser.add_argument("-t", "--threads", type=int, default=100, help="Threads to use, the more, the faster. Default is: 100")
-    
+    parser.add_argument("-rH", "--randomize-host", action="store_true", default=False, help="Randomize the interation through the hosts")
+    parser.add_argument("-rP", "--randomize-creds", action="store_true", default=False, help="Shuffle the combo/password list before initializing the attack on the hosts")
+
     args = parser.parse_args()
 
     if not any([args.pass_list, args.combo_list]):
@@ -221,6 +228,11 @@ def main():
     port = args.port
     username = args.username
     threads = args.threads
+    randomize_host = args.randomize_host
+    randomize_creds = args.randomize_creds
+
+    if randomize_creds:
+        random.shuffle(creds_list)
 
     for line in creds_list:
         if args.combo_list:
@@ -229,7 +241,7 @@ def main():
             username = args.username
             password = line
 
-        iterhosts = IterHostsLoginMethod(hostnames=host_list.copy(), port=port, username=username, password=password, output=output, threads=threads)
+        iterhosts = IterHostsLoginMethod(hostnames=host_list.copy(), port=port, username=username, password=password, output=output, threads=threads, randomize_host=randomize_host)
         print(f"Initializing reverse bruteforce on {len(host_list)} hosts")
         
         try:

@@ -193,8 +193,8 @@ def main():
     parser.add_argument("-p", "--port", type=int, default=22, help="Port to connect to. Default is: 22")
     parser.add_argument("-u", "--username", type=str, default="root", help="Username to crack. Default is: root")
     parser.add_argument("-t", "--threads", type=int, default=100, help="Threads to use, the more, the faster. Default is: 100")
-    parser.add_argument("-rH", "--randomize-host", action="store_true", default=False, help="Randomize the interation through the hosts")
-    parser.add_argument("-rP", "--randomize-creds", action="store_true", default=False, help="Shuffle the combo/password list before initializing the attack on the hosts")
+    parser.add_argument("-rH", "--randomize-host", action="store_true", default=False, help="Randomize the interation through the hosts list")
+    parser.add_argument("-rC", "--randomize-creds", action="store_true", default=False, help="Shuffle the combo/password list before initializing the attack on the host list")
 
     args = parser.parse_args()
 
